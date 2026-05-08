@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>YK BRAHMASTRA</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="locked">
+    <section class="login-screen" data-login-screen>
+      <form class="login-card" data-login-form>
+        <div class="brand-mark">INR</div>
+        <h1>YK BRAHMASTRA</h1>
+        <p>Enter your access password to continue.</p>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required autofocus /></label>
+        <button class="primary-button full-width" type="submit">Login</button>
+        <div class="login-error" data-login-error role="alert"></div>
+      </form>
+    </section>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="brand-block">
+          <div class="brand-mark">INR</div>
+          <div>
+            <div class="brand-name" data-business-name>YK BRAHMASTRA</div>
+            <div class="brand-subtitle">Finance desk</div>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view-target="dashboard" type="button"><span>D</span>Dashboard</button>
+          <button class="nav-item" data-view-target="store" type="button"><span>ST</span>Store</button>
+          <button class="nav-item" data-view-target="approvals" type="button"><span>AP</span>Approval Requests</button>
+          <button class="nav-item" data-view-target="vendors" type="button"><span>V</span>Vendors</button>
+          <button class="nav-item" data-view-target="purchases" type="button"><span>PO</span>Purchases</button>
+          <button class="nav-item" data-view-target="purchase-predictor" type="button"><span>PP</span>Purchase Predictor</button>
+          <button class="nav-item" data-view-target="make-payment" type="button"><span>MP</span>Make Payment</button>
+          <button class="nav-item" data-view-target="payment-in" type="button"><span>IN</span>Payment In</button>
+          <button class="nav-item" data-view-target="debt" type="button"><span>DB</span>Debt</button>
+          <button class="nav-item" data-view-target="scheduled" type="button"><span>SC</span>Scheduled</button>
+          <button class="nav-item" data-view-target="expected" type="button"><span>EX</span>Expected</button>
+          <button class="nav-item" data-view-target="reports" type="button"><span>RP</span>Reports</button>
+          <button class="nav-item" data-view-target="pdc" type="button"><span>PD</span>PDCs</button>
+          <button class="nav-item" data-view-target="cashbank" type="button"><span>BK</span>Banks</button>
+          <button class="nav-item" data-view-target="salaries" type="button"><span>SA</span>Salaries</button>
+          <button class="nav-item" data-view-target="daybook" type="button"><span>DY</span>Daybook</button>
+          <button class="nav-item" data-view-target="crux" type="button"><span>CD</span>Crux of the Day</button>
+          <button class="nav-item" data-view-target="expenses" type="button"><span>XP</span>Expenses</button>
+          <button class="nav-item" data-view-target="receipts" type="button"><span>RC</span>Receipts</button>
+          <button class="nav-item" data-view-target="settings" type="button"><span>ST</span>Settings</button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="small-label">Business day</div>
+          <div class="sidebar-date" data-business-date-label></div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Business finance automation</p>
+            <h1 data-view-title>Dashboard</h1>
+          </div>
+          <div class="topbar-actions">
+            <details class="header-dropdown" data-overdues-dropdown>
+              <summary class="ghost-button">Overdues <span class="count-badge" data-overdue-count>0</span></summary>
+              <div class="header-dropdown-panel">
+                <div class="panel-header"><div><h3>Overdues</h3><p>Bills, repayment dues, PDCs, and expected receipts needing attention.</p></div></div>
+                <div class="alert-list compact" data-overdues-list></div>
+              </div>
+            </details>
+            <button class="ghost-button" data-action="export-json" type="button">Export backup</button>
+            <button class="primary-button" data-view-target="payment-in" type="button">Add money in</button>
+            <button class="ghost-button" data-action="logout" type="button">Logout</button>
+          </div>
+        </header>
+
+        <section class="view active" id="view-dashboard">
+          <div class="section-heading">
+            <div>
+              <h2>Dashboard</h2>
+              <p>Purchases, payables, cash flow, and due commitments for the current month.</p>
+            </div>
+          </div>
+          <div class="metric-grid" data-dashboard-metrics></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><div><h3>Upcoming PDCs</h3><p>Cheques still pending or deposited.</p></div></div>
+              <div class="alert-list" data-dashboard-pdcs></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Due Soon</h3><p>Purchase invoices, booked expenses, salaries, and debt reminders.</p></div></div>
+              <div class="alert-list" data-dashboard-due></div>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Recent Activity</h3><p>Latest generated from the ledger.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Type</th><th>Party</th><th>Details</th><th class="amount-cell">In</th><th class="amount-cell">Out</th></tr></thead>
+                <tbody data-recent-activity></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-store">
+          <div class="section-heading"><div><h2>Store Desk</h2><p>Simple material inward and outward entries for store users.</p></div></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><h3>Add Store Item</h3></div>
+              <form class="stacked-form" id="stock-item-form">
+                <label>Item name<input name="name" placeholder="Steel tube, fabric roll, packing box" required /></label>
+                <label>Unit<input name="unit" placeholder="kg, pcs, meter" /></label>
+                <button class="primary-button full-width" type="submit">Add item</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Item List</h3><p>Store can add items. Vendors are added only by admin or finance.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Item</th><th>Unit</th><th>Action</th></tr></thead>
+                  <tbody data-stock-items-table></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <div class="store-action-grid">
+            <section class="panel store-action-card">
+              <div class="store-action-icon">IN</div>
+              <div class="panel-header"><div><h3>Material In</h3><p>Record vendor bill quantity and received quantity, then send to quality.</p></div></div>
+              <form class="stacked-form" id="store-in-form">
+                <div class="form-grid">
+                  <label>Date<input name="date" type="date" required /></label>
+                  <label>Vendor<select name="vendorId" data-vendor-select required></select></label>
+                  <label>Item<select name="itemId" data-stock-item-select required></select></label>
+                  <label>Bill no.<input name="billNo" placeholder="Vendor bill number" required /></label>
+                  <label>Specified quantity<input name="specifiedQty" type="number" min="0" step="0.001" required /></label>
+                  <label>Received quantity<input name="receivedQty" type="number" min="0" step="0.001" required /></label>
+                </div>
+                <button class="primary-button full-width" type="submit">Record IN</button>
+              </form>
+            </section>
+            <section class="panel store-action-card">
+              <div class="store-action-icon">OUT</div>
+              <div class="panel-header"><div><h3>Material Out</h3><p>Record simple outward movement from store.</p></div></div>
+              <form class="stacked-form" id="store-out-form">
+                <div class="form-grid">
+                  <label>Date<input name="date" type="date" required /></label>
+                  <label>Item<select name="itemId" data-stock-item-select required></select></label>
+                  <label>Reference<input name="reference" placeholder="Issue slip / purpose" /></label>
+                  <label>Quantity out<input name="outQty" type="number" min="0" step="0.001" required /></label>
+                </div>
+                <label>Notes<input name="notes" placeholder="Optional note" /></label>
+                <button class="primary-button full-width" type="submit">Record OUT</button>
+              </form>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Inward Log</h3><p>Quality and finance status for every vendor bill received.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Vendor</th><th>Bill</th><th>Item</th><th class="amount-cell">Specified</th><th class="amount-cell">Received</th><th class="amount-cell">Difference</th><th class="amount-cell">Approved</th><th>Quality</th><th>Finance</th><th>Action</th></tr></thead>
+                <tbody data-store-in-table></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Outward Log</h3><p>Simple material issue records.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Item</th><th>Reference</th><th class="amount-cell">Quantity</th><th>Notes</th><th>Action</th></tr></thead>
+                <tbody data-store-out-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-approvals">
+          <div class="section-heading"><div><h2>Approval Requests</h2><p>Quality approval and finance booking for store inward entries.</p></div></div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Quality Approval Queue</h3><p>Approve the quantity that passed quality. Rejected quantity is calculated automatically.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Vendor</th><th>Bill</th><th>Item</th><th class="amount-cell">Specified</th><th class="amount-cell">Received</th><th>Approved qty</th><th>Notes</th><th>Action</th></tr></thead>
+                <tbody data-quality-approval-table></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Finance Approval Requests</h3><p>After quality approval, enter invoice amount and category to book the purchase liability.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Vendor</th><th>Bill</th><th>Item</th><th class="amount-cell">Specified</th><th class="amount-cell">Received</th><th class="amount-cell">Approved</th><th class="amount-cell">Rejected</th><th class="amount-cell">Diff.</th><th>Status</th><th>Quality notes</th><th>Finance action</th></tr></thead>
+                <tbody data-finance-approval-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-vendors">
+          <div class="section-heading"><div><h2>Vendors</h2><p>Add suppliers and payment terms used for invoice due dates.</p></div></div>
+          <div class="form-and-list">
+            <section class="panel">
+              <div class="panel-header"><h3>Add Vendor</h3></div>
+              <form class="stacked-form" id="vendor-form">
+                <label>Vendor name<input name="name" placeholder="Supplier name" required /></label>
+                <label>Payment terms in days<input name="terms" type="number" min="0" step="1" value="30" required /></label>
+                <button class="primary-button full-width" type="submit">Add vendor</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Vendor Register</h3><p>Purchase totals and matured invoice counts update automatically.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Vendor</th><th>Terms</th><th>Total Purchases</th><th>Matured</th><th class="amount-cell">Outstanding</th><th>Action</th></tr></thead>
+                  <tbody data-vendors-table></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-purchases">
+          <div class="section-heading"><div><h2>Purchases</h2><p>Book purchase invoices and classify spend without paying immediately.</p></div></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><h3>Purchase Categories</h3></div>
+              <form class="inline-form" id="purchase-category-form">
+                <input name="name" placeholder="Raw material, labour job, packing" required />
+                <button class="secondary-button" type="submit">Add category</button>
+              </form>
+              <div class="category-strip" data-purchase-categories></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><h3>Manual Purchase Entry</h3></div>
+              <form class="stacked-form" id="purchase-form">
+                <div class="form-grid">
+                  <label>Vendor<select name="vendorId" data-vendor-select required></select></label>
+                  <label>Invoice ID<input name="invoiceNo" placeholder="Invoice number" required /></label>
+                  <label>Invoice date<input name="date" type="date" required /></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                  <label>Category<select name="category" data-purchase-category-select required></select></label>
+                  <label>Items / description<input name="description" placeholder="Optional purchase details" /></label>
+                </div>
+                <button class="primary-button full-width" type="submit">Add purchase</button>
+              </form>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Purchase Invoices</h3><p>Invoices remain unpaid until settled from Make Payment.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Invoice</th><th>Vendor</th><th>Date</th><th>Due</th><th>Category</th><th class="amount-cell">Amount</th><th class="amount-cell">Paid</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody data-purchases-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-purchase-predictor">
+          <div class="section-heading"><div><h2>Purchase Predictor</h2><p>Plan item purchases against vendor terms, tax, and payment provisions.</p></div></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><h3>Product Master</h3></div>
+              <form class="stacked-form" id="predictor-item-form">
+                <div class="form-grid">
+                  <label>Item name<input name="name" placeholder="Cotton yarn, steel tube" required /></label>
+                  <label>Unit<input name="unit" placeholder="kg, pcs, bundle" /></label>
+                  <label>Base purchase rate<input name="rate" type="number" min="0" step="0.01" required /></label>
+                  <label>Taxed supply<select name="taxedSupply"><option>No</option><option>Yes</option></select></label>
+                  <label>Tax %<input name="taxRate" type="number" min="0" step="0.01" value="0" /></label>
+                </div>
+                <button class="primary-button full-width" type="submit">Add item</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><h3>Vendor Rate for Item</h3></div>
+              <form class="stacked-form" id="predictor-vendor-form">
+                <div class="form-grid">
+                  <label>Item<select name="itemId" data-predictor-item-select required></select></label>
+                  <label>Vendor name<input name="vendorName" placeholder="Supplier name" required /></label>
+                  <label>Vendor rate<input name="rate" type="number" min="0" step="0.01" required /></label>
+                  <label>Maturity terms in days<input name="terms" type="number" min="0" step="1" value="30" required /></label>
+                </div>
+                <label>Notes<textarea name="notes" rows="3"></textarea></label>
+                <button class="secondary-button full-width" type="submit">Add vendor rate</button>
+              </form>
+            </section>
+          </div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><div><h3>Items</h3><p>Tax and base-rate assumptions.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Item</th><th>Unit</th><th class="amount-cell">Base rate</th><th>Tax</th><th>Action</th></tr></thead>
+                  <tbody data-predictor-items-table></tbody>
+                </table>
+              </div>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Vendor Rates</h3><p>Rate and maturity term by item.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Item</th><th>Vendor</th><th class="amount-cell">Rate</th><th>Terms</th><th>Action</th></tr></thead>
+                  <tbody data-predictor-vendors-table></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Purchase Forecast</h3><p>Maturity dates are shifted to the 10th, 20th, or next month's 10th payment provision.</p></div></div>
+            <form class="stacked-form" id="purchase-prediction-form">
+              <div class="form-grid">
+                <label>Item<select name="itemId" data-predictor-item-select required></select></label>
+                <label>Vendor option<select name="vendorOptionId" data-predictor-vendor-select required></select></label>
+                <label>Purchase date<input name="date" type="date" required /></label>
+                <label>Quantity<input name="quantity" type="number" min="0" step="0.01" required /></label>
+                <label>Paying account<select name="accountId" data-money-source-select required></select></label>
+              </div>
+              <label>Remarks<textarea name="notes" rows="3"></textarea></label>
+              <div class="metric-grid compact" data-prediction-preview></div>
+              <button class="primary-button full-width" type="submit">Add forecast scenario</button>
+            </form>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Vendor Comparison</h3><p>Projected safety by vendor for the selected quantity.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Vendor</th><th>Terms</th><th class="amount-cell">Unit total</th><th>Provision date</th><th class="amount-cell">Funds check</th><th class="amount-cell">Safe quantity</th><th>Status</th></tr></thead>
+                <tbody data-prediction-vendor-options></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Planned Purchase Scenarios</h3><p>Planned payments feed the projection but do not create actual purchase invoices.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Purchase</th><th>Payment</th><th>Item</th><th>Vendor</th><th>Qty</th><th class="amount-cell">Total</th><th class="amount-cell">Funds check</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody data-purchase-predictions-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-make-payment">
+          <div class="section-heading"><div><h2>Make Payment</h2><p>Select vendor invoices, pay partially or fully, and optionally issue a PDC.</p></div></div>
+          <section class="panel">
+            <form class="stacked-form" id="vendor-payment-form">
+              <div class="form-grid">
+                <label>Select vendor<select name="vendorId" data-make-payment-vendor required></select></label>
+                <label>Payment date<input name="date" type="date" required /></label>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Select</th><th>Invoice</th><th>Purchase Date</th><th>Due Date</th><th class="amount-cell">Outstanding</th></tr></thead>
+                  <tbody data-payable-invoices></tbody>
+                </table>
+              </div>
+              <div class="metric-grid compact" data-payment-selection-summary></div>
+              <div class="form-grid">
+                <label>Amount to pay<input name="amount" type="number" min="0" step="0.01" required /></label>
+                <label>Payment mode<select name="mode" required><option>Cash</option><option>Bank Transfer</option><option>Cheque</option></select></label>
+                <label>Paying account<select name="accountId" data-money-source-select required></select></label>
+                <label>Cheque / UTR number<input name="reference" placeholder="Optional reference" /></label>
+                <label class="checkbox-label"><input name="isPdc" type="checkbox" /> Post-dated cheque</label>
+                <label>PDC due date<input name="pdcDate" type="date" /></label>
+              </div>
+              <label>Partial payment remarks<textarea name="remarks" rows="3" placeholder="Optional remarks"></textarea></label>
+              <button class="primary-button full-width" type="submit">Mark payment and create receipt</button>
+            </form>
+          </section>
+        </section>
+
+        <section class="view" id="view-payment-in">
+          <div class="section-heading"><div><h2>Payment In</h2><p>Record customer receipts, owner capital, debt receipts, or miscellaneous inflow.</p></div></div>
+          <div class="form-and-list">
+            <section class="panel">
+              <div class="panel-header"><h3>Record Incoming Payment</h3></div>
+              <form class="stacked-form" id="payment-in-form">
+                <div class="form-grid">
+                  <label>Source<select name="source" required><option>Customer</option><option>Own Capital</option><option>Un-Official Debt</option><option>Bank Debt</option><option>Miscellaneous</option></select></label>
+                  <label>Party name<input name="party" placeholder="Customer, owner, lender, or source" /></label>
+                  <label>Receiving account<select name="accountId" data-money-target-select required></select></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                </div>
+                <label>Remarks<textarea name="remarks" rows="3"></textarea></label>
+                <button class="primary-button full-width" type="submit">Add payment in</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Payment-In History</h3><p>Incoming funds feed balances and daybook.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Date</th><th>Source</th><th>Party</th><th>Account</th><th class="amount-cell">Amount</th><th>Action</th></tr></thead>
+                  <tbody data-payment-ins-table></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-debt">
+          <div class="section-heading"><div><h2>Debt</h2><p>Track official and unofficial loans, interest style, and repayment terms.</p></div></div>
+          <div class="form-and-list">
+            <section class="panel">
+              <div class="panel-header"><h3>Add Debt Record</h3></div>
+              <form class="stacked-form" id="debt-form">
+                <div class="radio-row">
+                  <label class="radio-label"><input name="entryType" type="radio" value="New Debt" checked /> New Debt</label>
+                  <label class="radio-label"><input name="entryType" type="radio" value="Old Debt" /> Old Debt</label>
+                </div>
+                <div class="radio-row">
+                  <label class="radio-label"><input name="debtType" type="radio" value="Un-Official Debt" checked /> Un-Official Debt</label>
+                  <label class="radio-label"><input name="debtType" type="radio" value="Bank Debt" /> Bank Debt</label>
+                </div>
+                <div class="form-grid">
+                  <label>Original date<input name="originalDate" type="date" /></label>
+                  <label>Lender name<input name="lender" required /></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                  <label>Receiving account<select name="accountId" data-debt-account-select></select></label>
+                  <label>Interest rate % p.a.<input name="interestRate" type="number" min="0" step="0.01" /></label>
+                  <label>Repayment terms<select name="repaymentTerms"><option>Monthly EMI</option><option>Monthly Interest</option><option>Interest + Principle Fixed</option><option>Interest + Principle Unfixed</option></select></label>
+                  <label data-emi-field>Monthly EMI amount<input name="monthlyEmiAmount" type="number" min="0" step="0.01" placeholder="Fixed EMI amount" /></label>
+                  <label data-repayment-day-field>Repayment day of month<input name="repaymentDay" type="number" min="1" max="31" step="1" placeholder="e.g. 5" /></label>
+                  <label data-emi-field>EMI tenure in months<input name="emiTenureMonths" type="number" min="1" step="1" placeholder="e.g. 24" /></label>
+                  <label>Interest type<select name="interestType"><option>Fixed Interest</option><option>Floating</option></select></label>
+                  <label>First due date<input name="dueDate" type="date" /></label>
+                </div>
+                <p class="fineprint" data-debt-accrual-preview>New debt increases the chosen cash or bank balance. Daily interest or EMI cost is booked when the day is closed.</p>
+                <label>Remarks<textarea name="remarks" rows="3"></textarea></label>
+                <button class="primary-button full-width" type="submit">Record debt</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Debt Accounts</h3><p>Debt is tracked as liability; new debt also increases the receiving account.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Lender</th><th>Entry</th><th>Terms</th><th class="amount-cell">Principal</th><th>Interest / EMI</th><th class="amount-cell">Daily Book</th><th>Due</th><th>Action</th></tr></thead>
+                  <tbody data-debts-table></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-scheduled">
+          <div class="section-heading"><div><h2>Scheduled Payments</h2><p>Pending booked expenses, salary payable, and debt reminders.</p></div></div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Pending Scheduled Payments</h3><p>Payables that do not reduce cash or bank until paid.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Due</th><th>Type</th><th>Party / Purpose</th><th class="amount-cell">Amount</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody data-scheduled-table></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Scheduled History</h3><p>Booked and paid scheduled items.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Type</th><th>Details</th><th class="amount-cell">Amount</th><th>Status</th></tr></thead>
+                <tbody data-scheduled-history></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-expected">
+          <div class="section-heading"><div><h2>Expected Payments</h2><p>Forecast incoming money and possible delay windows.</p></div></div>
+          <section class="panel" data-expected-alert-panel hidden>
+            <div class="panel-header"><div><h3>Expected Payment Follow-Up</h3><p>Confirm due receipts so PDC projections stay practical.</p></div></div>
+            <div class="alert-list" data-expected-alerts></div>
+          </section>
+          <div class="form-and-list">
+            <section class="panel">
+              <div class="panel-header"><h3>Log Expected Payment</h3></div>
+              <form class="stacked-form" id="forecast-form">
+                <div class="form-grid">
+                  <label>Type<select name="paymentType"><option>Customer Payment</option><option>Capital Infusion</option><option>Un-Official Debt</option><option>Bank Debt</option><option>Miscellaneous</option></select></label>
+                  <label>Party name<input name="party" required /></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                  <label>Expected date<input name="date" type="date" required /></label>
+                  <label>Mode<select name="mode"><option>Cash</option><option>Bank Transfer</option><option>Cheque</option></select></label>
+                  <label>Expected receiving account<select name="accountId" data-money-target-select required></select></label>
+                  <label>Max possible delay days<input name="delayDays" type="number" min="0" step="1" value="0" /></label>
+                  <label>Confidence<select name="confidence"><option value="90">High</option><option value="60">Medium</option><option value="30">Low</option></select></label>
+                  <label>Status<select name="status"><option>Open</option><option>Received</option><option>Delayed</option><option>Cancelled</option></select></label>
+                </div>
+                <label>Remarks<textarea name="notes" rows="3"></textarea></label>
+                <button class="primary-button full-width" type="submit">Log payment</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Expected Register</h3><p>Open expected payments feed the projection.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Expected</th><th>Latest</th><th>Type</th><th>Party</th><th>Account</th><th class="amount-cell">Amount</th><th>Status</th><th>Action</th></tr></thead>
+                  <tbody data-forecast-table></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>30-Day Projection</h3><p>Expected receipts, pending PDCs, invoice dues, planned purchases, and booked payables.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th class="amount-cell">Expected In</th><th class="amount-cell">Expected Out</th><th class="amount-cell">Projected Balance</th><th>Notes</th></tr></thead>
+                <tbody data-projection-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-reports">
+          <div class="section-heading"><div><h2>Reports</h2><p>Filter, print, export, and delete source records with automatic balance recalculation.</p></div></div>
+          <section class="panel">
+            <div class="report-filters">
+              <select data-report-type><option>All Transactions</option><option>Vendor Payments</option><option>Purchases</option><option>Purchase Forecasts</option><option>Expenses</option><option>Scheduled Expenses</option><option>Post-Dated Cheques</option><option>Salaries</option><option>Debt</option><option>Debt Accruals</option><option>Debt Payments</option><option>Payments In</option><option>Receipts</option></select>
+              <input data-report-start type="date" />
+              <input data-report-end type="date" />
+              <button class="ghost-button" data-action="clear-report-filters" type="button">Clear</button>
+              <button class="secondary-button" data-action="export-report" type="button">CSV</button>
+              <button class="ghost-button" data-action="print-report" type="button">Print</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Type</th><th>Party / Purpose</th><th>Status</th><th>Account</th><th>Reference</th><th class="amount-cell">Amount</th><th>Action</th></tr></thead>
+                <tbody data-reports-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-pdc">
+          <div class="section-heading"><div><h2>PDC Register</h2><p>Track post-dated cheques as commitments until they clear.</p></div></div>
+          <div class="form-and-list">
+            <section class="panel">
+              <div class="panel-header"><h3>New PDC</h3></div>
+              <form class="stacked-form" id="pdc-form">
+                <div class="form-grid">
+                  <label>Type<select name="direction"><option value="receivable">Receivable</option><option value="payable">Payable</option></select></label>
+                  <label>Party<input name="partyName" required /></label>
+                  <label>Cheque no.<input name="chequeNo" required /></label>
+                  <label>Cheque bank<input name="bankName" required /></label>
+                  <label>Due date<input name="dueDate" type="date" required /></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                  <label>Deposit / paid account<select name="accountId" data-bank-account-select required></select></label>
+                  <label>Status<select name="status"><option>Pending</option><option>Deposited</option><option>Cleared</option><option>Bounced</option><option>Cancelled</option></select></label>
+                </div>
+                <label>Notes<textarea name="notes" rows="3"></textarea></label>
+                <button class="primary-button full-width" type="submit">Add PDC</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Cheque Register</h3><p>Only cleared PDCs affect statement balance.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Due</th><th>Type</th><th>Party</th><th>Cheque</th><th>Account</th><th class="amount-cell">Amount</th><th>Projection</th><th>Status</th><th>Action</th></tr></thead>
+                  <tbody data-pdc-table></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-cashbank">
+          <div class="section-heading"><div><h2>Banks & Cash</h2><p>Manage accounts, transfers, withdrawals, and business-day close.</p></div></div>
+          <div class="metric-grid" data-cashbank-metrics></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><h3>Daily Operations</h3></div>
+              <p class="fineprint">Current business day: <strong data-business-date-label></strong></p>
+              <button class="danger-button full-width" data-action="close-business-day" type="button">Close for today</button>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><h3>Add Bank Account</h3></div>
+              <form class="stacked-form" id="account-form">
+                <div class="form-grid">
+                  <label>Bank name<input name="name" placeholder="Bank account name" required /></label>
+                  <label>Opening balance<input name="openingBalance" type="number" step="0.01" value="0" required /></label>
+                </div>
+                <button class="secondary-button full-width" type="submit">Add bank</button>
+              </form>
+            </section>
+          </div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><h3>Transfer Money</h3></div>
+              <form class="stacked-form" id="transfer-form">
+                <div class="form-grid">
+                  <label>Date<input name="date" type="date" required /></label>
+                  <label>From<select name="from" data-money-source-select required></select></label>
+                  <label>To<select name="to" data-money-target-select required></select></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                </div>
+                <label>Notes<input name="notes" placeholder="Internal transfer details" /></label>
+                <button class="secondary-button full-width" type="submit">Record transfer</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><h3>Personal Withdrawal</h3></div>
+              <form class="stacked-form" id="withdrawal-form">
+                <div class="form-grid">
+                  <label>Date<input name="date" type="date" required /></label>
+                  <label>Account<select name="accountId" data-money-source-select required></select></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                  <label>Purpose<input name="purpose" placeholder="Owner withdrawal, drawings" required /></label>
+                </div>
+                <button class="secondary-button full-width" type="submit">Record withdrawal</button>
+              </form>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Secure Bank Balance Adjustment</h3>
+                <p>Adjust a bank balance only after entering the secret password. Every adjustment is saved in the ledger.</p>
+              </div>
+            </div>
+            <form class="stacked-form" id="balance-adjustment-form">
+              <div class="form-grid">
+                <label>Date<input name="date" type="date" required /></label>
+                <label>Bank account<select name="accountId" data-bank-account-select required></select></label>
+                <label>Adjustment type
+                  <select name="adjustmentType" required>
+                    <option value="set">Set bank balance to this amount</option>
+                    <option value="add">Add positive/negative adjustment</option>
+                  </select>
+                </label>
+                <label>Amount<input name="amount" type="number" step="0.01" required /></label>
+                <label>Secret password<input name="password" type="password" autocomplete="off" required /></label>
+                <label>Reason<input name="reason" placeholder="Opening correction, bank reconciliation, charge correction" required /></label>
+              </div>
+              <button class="danger-button full-width" type="submit">Authorize adjustment</button>
+            </form>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Cash & Bank Ledger</h3><p>All balance-impacting movements.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Account</th><th>Type</th><th>Details</th><th class="amount-cell">In</th><th class="amount-cell">Out</th></tr></thead>
+                <tbody data-ledger-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-salaries">
+          <div class="section-heading"><div><h2>Salaries</h2><p>Manual salary expense booking, advance reserve judgement, and salary clearing.</p></div></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><h3>Salary Management</h3></div>
+              <div class="metric-grid compact" data-salary-metrics></div>
+              <form class="stacked-form" id="salary-settings-form">
+                <label>Expected monthly salary<input name="expectedMonthlySalary" type="number" min="0" step="0.01" required /></label>
+                <button class="secondary-button full-width" type="submit">Update expected salary</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Book Salary Expense</h3><p>Book the actual salary expense incurred for the day. The day cannot be closed until this is done.</p></div></div>
+              <form class="stacked-form" id="salary-book-form">
+                <label>Date<input name="date" type="date" required /></label>
+                <label>Amount to book<input name="amount" type="number" min="0" step="0.01" required /></label>
+                <label>Remarks<input name="remarks" placeholder="Salary period or note" /></label>
+                <button class="primary-button full-width" type="submit">Book salary expense</button>
+              </form>
+            </section>
+          </div>
+          <div class="metric-grid" data-salary-schedule></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><h3>Record Advance Payment</h3></div>
+              <form class="stacked-form" id="salary-advance-form">
+                <div class="form-grid">
+                  <label>Date<input name="date" type="date" required /></label>
+                  <label>Salary month<input name="salaryMonth" type="month" required /></label>
+                  <label>Paying account<select name="accountId" data-money-source-select required></select></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                </div>
+                <label>Remarks<input name="remarks" placeholder="Advance for current month" /></label>
+                <button class="primary-button full-width" type="submit">Record advance payment</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><h3>Clear Salary Payment</h3></div>
+              <form class="stacked-form" id="salary-pay-form">
+                <div class="form-grid">
+                  <label>Date<input name="date" type="date" required /></label>
+                  <label>Salary month<input name="salaryMonth" type="month" required /></label>
+                  <label>Paying account<select name="accountId" data-money-source-select required></select></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                  <label>Remarks<input name="remarks" placeholder="Salary payout note" /></label>
+                </div>
+                <button class="primary-button full-width" type="submit">Record salary payment</button>
+              </form>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Salary History</h3><p>Booked salary expense, advances, and salary payments.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Type</th><th>Account</th><th class="amount-cell">Amount</th><th>Remarks</th><th>Action</th></tr></thead>
+                <tbody data-salary-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-daybook">
+          <div class="section-heading">
+            <div><h2>Daybook</h2><p>Daily ledger assembled from all modules.</p></div>
+            <div class="inline-control">
+              <label>Date<input data-daybook-date type="date" /></label>
+              <button class="ghost-button" data-action="export-daybook" type="button">CSV</button>
+              <button class="ghost-button" data-action="print-daybook" type="button">Print</button>
+            </div>
+          </div>
+          <div class="metric-grid" data-daybook-summary></div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Daily Transactions</h3><p>Cleared money movement stays separate from booked commitments and debt costs.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Type</th><th>Party</th><th>Details</th><th class="amount-cell">In</th><th class="amount-cell">Out</th><th class="amount-cell">Commitment</th></tr></thead>
+                <tbody data-daybook-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-crux">
+          <div class="section-heading">
+            <div><h2>Crux of the Day</h2><p>Closed-day briefing, charts, daybook, and correction desk.</p></div>
+            <div class="inline-control">
+              <label>Closed day<select data-crux-date></select></label>
+              <button class="ghost-button" data-action="print-crux" type="button">Print / Save PDF</button>
+              <button class="secondary-button" data-action="download-crux-html" type="button">Download report</button>
+            </div>
+          </div>
+          <div class="metric-grid" data-crux-summary></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><div><h3>Graphical Briefing</h3><p>Money movement and booked commitments for the selected day.</p></div></div>
+              <div data-crux-charts></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Brief of the Day</h3><p>Short management note generated from the day records.</p></div></div>
+              <div class="briefing-list" data-crux-briefing></div>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Daybook Page</h3><p>This same table is included as page two of the printable report.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Type</th><th>Party</th><th>Details</th><th class="amount-cell">In</th><th class="amount-cell">Out</th><th class="amount-cell">Commitment</th></tr></thead>
+                <tbody data-crux-daybook-table></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Edit Actions of This Day</h3><p>Correct or delete source records; balances, daybook, overdues, and reports recalculate immediately.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Source</th><th>Party / Purpose</th><th>Details</th><th class="amount-cell">Amount</th><th>Effect</th><th>Action</th></tr></thead>
+                <tbody data-crux-actions-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-expenses">
+          <div class="section-heading"><div><h2>Expenses</h2><p>Manage categories, immediate expenses, and unpaid booked expenses.</p></div></div>
+          <section class="panel">
+            <div class="panel-header"><h3>Expense Categories</h3></div>
+            <form class="inline-form" id="expense-category-form">
+              <input name="name" placeholder="Freight, office supplies, rent" required />
+              <button class="secondary-button" type="submit">Add category</button>
+            </form>
+            <div class="category-strip" data-expense-categories></div>
+          </section>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><div><h3>Record Immediate Expense</h3><p>Same-day operating cost with instant cash or bank debit.</p></div></div>
+              <form class="stacked-form" id="expense-form">
+                <div class="form-grid">
+                  <label>Date<input name="date" type="date" required /></label>
+                  <label>Category<select name="category" data-expense-category-select required></select></label>
+                  <label>Paid to<input name="paidTo" required /></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                  <label>Payment mode<select name="mode"><option>Cash</option><option>Bank Transfer</option><option>UPI</option><option>Cheque</option></select></label>
+                  <label>Paid account<select name="accountId" data-money-source-select required></select></label>
+                </div>
+                <label>Notes<textarea name="notes" rows="3"></textarea></label>
+                <button class="primary-button full-width" type="submit">Record expense</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Book Unpaid Expense</h3><p>Service cost booked now, payable later without cash or bank debit.</p></div></div>
+              <form class="stacked-form" id="booked-expense-form">
+                <div class="form-grid">
+                  <label>Expense date<input name="date" type="date" required /></label>
+                  <label>Due date<input name="dueDate" type="date" required /></label>
+                  <label>Category<select name="category" data-expense-category-select required></select></label>
+                  <label>Payable to<input name="paidTo" required /></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                </div>
+                <label>Notes<textarea name="notes" rows="3"></textarea></label>
+                <button class="secondary-button full-width" type="submit">Book expense payable</button>
+              </form>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Pay Unpaid Expense Dues</h3><p>Category-wise settlement with one printable payment receipt.</p></div></div>
+            <div class="report-filters">
+              <label>Category<select data-unpaid-expense-category-filter></select></label>
+              <label>Paying account<select data-unpaid-expense-account data-money-source-select></select></label>
+              <label>Payment date<input data-unpaid-expense-pay-date type="date" /></label>
+              <button class="primary-button" data-action="pay-selected-expenses" type="button">Pay selected & print receipt</button>
+            </div>
+            <div class="metric-grid compact" data-unpaid-expense-summary></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Select</th><th>Expense date</th><th>Due date</th><th>Category</th><th>Payable to</th><th>Notes</th><th class="amount-cell">Amount</th></tr></thead>
+                <tbody data-unpaid-expense-table></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3>Expense Register</h3><p>Source records for expense daybooks, payables, and balance recalculation.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Expense date</th><th>Due / paid</th><th>Category</th><th>Paid to</th><th>Status</th><th>Account</th><th class="amount-cell">Amount</th><th>Action</th></tr></thead>
+                <tbody data-expenses-table></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-receipts">
+          <div class="section-heading"><div><h2>Payment Receipts</h2><p>Generate numbered receipts and update the selected cash or bank account.</p></div></div>
+          <div class="form-and-list">
+            <section class="panel">
+              <div class="panel-header"><h3>New Receipt</h3></div>
+              <form class="stacked-form" id="receipt-form">
+                <div class="form-grid">
+                  <label>Date<input name="date" type="date" required /></label>
+                  <label>Customer<input name="customer" required /></label>
+                  <label>Amount<input name="amount" type="number" min="0" step="0.01" required /></label>
+                  <label>Payment mode<select name="mode"><option>Cash</option><option>Bank Transfer</option><option>UPI</option><option>Cheque</option></select></label>
+                  <label>Receiving account<select name="accountId" data-money-target-select required></select></label>
+                  <label>Invoice / order<input name="invoice" /></label>
+                </div>
+                <label>Notes<textarea name="notes" rows="3"></textarea></label>
+                <button class="primary-button full-width" type="submit">Create receipt</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><div><h3>Receipt Register</h3><p>Print or delete receipts from here.</p></div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>No.</th><th>Date</th><th>Customer</th><th>Mode</th><th class="amount-cell">Amount</th><th>Action</th></tr></thead>
+                  <tbody data-receipts-table></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-settings">
+          <div class="section-heading"><div><h2>Settings & Data</h2><p>Configure business details and manage backups.</p></div></div>
+          <div class="two-column">
+            <section class="panel">
+              <div class="panel-header"><h3>Business Settings</h3></div>
+              <form class="stacked-form" id="settings-form">
+                <div class="form-grid">
+                  <label>Business name<input name="businessName" required /></label>
+                  <label>Opening cash<input name="openingCash" type="number" step="0.01" required /></label>
+                  <label>Receipt prefix<input name="receiptPrefix" required /></label>
+                  <label>Low balance alert<input name="lowBalanceAlert" type="number" step="0.01" required /></label>
+                  <label>Cloud sync URL<input name="syncUrl" placeholder="Optional shared data endpoint" /></label>
+                  <label>Sync secret<input name="syncToken" type="password" placeholder="Optional endpoint secret" /></label>
+                </div>
+                <button class="primary-button full-width" type="submit">Save settings</button>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header"><h3>Backup</h3></div>
+              <div class="backup-actions">
+                <button class="secondary-button" data-action="export-json" type="button">Export backup</button>
+                <label class="file-button">Import backup<input data-import-json type="file" accept="application/json" /></label>
+                <button class="secondary-button" data-action="sync-pull" type="button">Pull cloud data</button>
+                <button class="secondary-button" data-action="sync-push" type="button">Push cloud data</button>
+                <button class="danger-button" data-action="clear-data" type="button">Clear all data</button>
+              </div>
+              <p class="fineprint">No vendor, bank, balance, or transaction data is preloaded. Local mode stores records in this browser. For multiple computers, configure a cloud sync URL that accepts GET and PUT JSON.</p>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <aside class="toast" data-toast role="status" aria-live="polite"></aside>
+    <section class="receipt-print" data-print-receipt aria-hidden="true"></section>
+    <script src="app.js"></script>
+  </body>
+</html>

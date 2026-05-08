@@ -1,0 +1,9 @@
+{
+  "name": "yk-brahmastra",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local server and sync backend for YK BRAHMASTRA.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
